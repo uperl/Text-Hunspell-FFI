@@ -38,7 +38,23 @@ _ffi->attach(['Hunspell_destroy'=>'DESTROY'] => ['opaque'] => 'void', sub
   $xsub->($$self);
 });
 
-sub add_dic { die 'TODO' }
+foreach my $try (qw( Hunspell_add_dic _ZN8Hunspell7add_dicEPKcS1_ ))
+{
+  eval {
+    _ffi->attach([$try=>'add_dic'] => ['opaque','string'] => 'void', sub
+    {
+      my($xsub, $self, $dpath) = @_;
+      $xsub->($$self, $dpath);
+    });
+  };
+  last unless $@;
+}
+
+unless(__PACKAGE__->can('add_dic'))
+{
+  # TODO: fallback on Perl implementation ?
+  die "unable to find add_dic";
+}
 
 _ffi->attach(['Hunspell_spell'=>'check'] => ['opaque','string'] => 'int', sub
 {
