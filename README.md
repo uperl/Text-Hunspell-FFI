@@ -45,10 +45,6 @@ a document in memory.
 
 The example code describes the interface on http://hunspell.sf.net
 
-# NAME
-
-Text::Hunspell::FFI - Perl FFI interface to the Hunspell library
-
 # METHODS
 
 The following methods are available:

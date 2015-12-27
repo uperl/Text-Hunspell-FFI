@@ -16,7 +16,7 @@ my $word = q(lótól);
 my $analysis = $speller->analyze($word);
 
 ok($analysis, q(Got something back));
-diag("Analysis result: [$analysis]");
+note("Analysis result: [$analysis]");
 
 # I'm a total newbie in dictionary stuff
 ok($analysis =~ m{st:ló}, q(Stemming root));

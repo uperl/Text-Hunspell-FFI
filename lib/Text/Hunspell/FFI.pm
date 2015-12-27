@@ -78,10 +78,6 @@ __END__
 
 =encoding utf8
 
-=head1 NAME
-
-Text::Hunspell::FFI - Perl FFI interface to the Hunspell library
-
 =head1 SYNOPSIS
 
     use Text::Hunspell::FFI;
