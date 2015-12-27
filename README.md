@@ -152,7 +152,7 @@ Please see:
 For the dictionaries:
 
 - [http://lingucomponent.openoffice.org/spell\_dic.html](http://lingucomponent.openoffice.org/spell_dic.html)
-- ["/magyarispell.sf.net for Hungarian dictionary" in http:](https://metacpan.org/pod/http:#magyarispell.sf.net-for-Hungarian-dictionary)
+- [http://magyarispell.sf.net](http://magyarispell.sf.net) for Hungarian dictionary
 
 # AUTHOR
 

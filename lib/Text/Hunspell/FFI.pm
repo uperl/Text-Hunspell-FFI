@@ -241,7 +241,7 @@ For the dictionaries:
 
 =item L<http://lingucomponent.openoffice.org/spell_dic.html>
 
-=item L<http://magyarispell.sf.net for Hungarian dictionary>
+=item L<http://magyarispell.sf.net> for Hungarian dictionary
 
 =back
 
