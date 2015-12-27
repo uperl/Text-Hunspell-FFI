@@ -17,7 +17,8 @@ sub _ffi
   {
     require Alien::Hunspell;
     $ffi = FFI::Platypus->new(
-      lib => [ Alien::Hunspell->dynamic_libs ],
+      #lib => [ Alien::Hunspell->dynamic_libs ],
+      lib => ['/Users/ollisg/opt/hunspell/git-ee6a9f4af5696d80c61fa8093a94a30c205450ee/lib/libhunspell-1.3.0.dylib'],
     );
   }
   
@@ -38,7 +39,11 @@ _ffi->attach(['Hunspell_destroy'=>'DESTROY'] => ['opaque'] => 'void', sub
   $xsub->($$self);
 });
 
-sub add_dic { die 'TODO' }
+_ffi->attach(['Hunspell_add_dic'=>'add_dic'] => ['opaque','string'] => 'void', sub
+{
+  my($xsub, $self, $dpath) = @_;
+  $xsub->($$self, $dpath);
+});
 
 _ffi->attach(['Hunspell_spell'=>'check'] => ['opaque','string'] => 'int', sub
 {

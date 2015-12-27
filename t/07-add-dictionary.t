@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-use Test::More skip_all => 'test requires add_dic implementation';
+#use Test::More skip_all => 'test requires add_dic implementation';
 use Test::More tests => 4;
 use Text::Hunspell::FFI;
 
