@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use 5.020;
 use FFI::Platypus;
+use Text::Hunspell::FFI::Lib;
 use experimental qw( postderef );
 
 # ABSTRACT: Perl FFI interface to the Hunspell library
@@ -15,9 +16,12 @@ sub _ffi
   
   unless(defined $ffi)
   {
-    require Alien::Hunspell;
+    my @libs = Text::Hunspell::FFI::Lib::_libs();
+
+    die "unable to find libs" unless @libs;
+    
     $ffi = FFI::Platypus->new(
-      lib => [ Alien::Hunspell->dynamic_libs ],
+      lib => \@libs,
     );
   }
   

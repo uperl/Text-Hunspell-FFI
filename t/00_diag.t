@@ -10,8 +10,8 @@ my %modules;
 my $post_diag;
 
 $modules{$_} = $_ for qw(
-  Alien::Hunspell
   ExtUtils::MakeMaker
+  FFI::CheckLib
   FFI::Platypus
   Test::More
   Test::Stream
