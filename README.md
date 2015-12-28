@@ -151,7 +151,7 @@ Please see:
 
 For the dictionaries:
 
-- [http://lingucomponent.openoffice.org/spell\_dic.html](http://lingucomponent.openoffice.org/spell_dic.html)
+- [https://wiki.openoffice.org/wiki/Dictionaries](https://wiki.openoffice.org/wiki/Dictionaries)
 - [http://magyarispell.sf.net](http://magyarispell.sf.net) for Hungarian dictionary
 
 # AUTHOR

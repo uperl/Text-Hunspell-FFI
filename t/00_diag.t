@@ -10,6 +10,7 @@ my %modules;
 my $post_diag;
 
 $modules{$_} = $_ for qw(
+  Alien::Hunspell
   ExtUtils::MakeMaker
   FFI::CheckLib
   FFI::Platypus
@@ -17,7 +18,11 @@ $modules{$_} = $_ for qw(
   Test::Stream
 );
 
-
+$post_diag = sub
+{
+  require Text::Hunspell::FFI::Lib;
+  diag "lib[]=$_" for Text::Hunspell::FFI::Lib::_libs();
+};
 
 my @modules = sort keys %modules;
 
