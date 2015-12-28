@@ -17,4 +17,4 @@ perl:
   - "5.22"
 
 script:
-  - dzil test -v
+  - prove -lv t
