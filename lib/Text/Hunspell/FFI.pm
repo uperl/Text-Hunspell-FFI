@@ -259,7 +259,7 @@ For the dictionaries:
 
 =over 4
 
-=item L<http://lingucomponent.openoffice.org/spell_dic.html>
+=item L<https://wiki.openoffice.org/wiki/Dictionaries>
 
 =item L<http://magyarispell.sf.net> for Hungarian dictionary
 
