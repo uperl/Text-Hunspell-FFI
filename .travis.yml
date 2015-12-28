@@ -1,10 +1,16 @@
 language: perl
 sudo: false
 
+addons:
+  apt:
+    packages:
+      - libhunspell-1.3-0
+
 install:
   - perlbrew list
-  - dzil authordeps --missing | cpanm -n
-  - dzil listdeps   --missing | cpanm -n
+  - cpanm -n FFI::Platypus FFI::CheckLib Test::Stream
+#  - dzil authordeps --missing | cpanm -n
+#  - dzil listdeps   --missing | cpanm -n
 
 perl:
   - "5.20"
