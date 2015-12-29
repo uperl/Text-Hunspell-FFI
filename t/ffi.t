@@ -5,5 +5,5 @@ use Text::Hunspell::FFI;
 
 plan 1;
 
-my $spell = Text::Hunspell::FFI->new("","");
+my $spell = Text::Hunspell::FFI->new(qw(./t/test.aff ./t/test.dic));
 isa_ok $spell, 'Text::Hunspell::FFI';
