@@ -8,7 +8,7 @@ addons:
 
 install:
   - perlbrew list
-  - cpanm -n FFI::Platypus FFI::CheckLib Test::Stream
+  - cpanm -n FFI::Platypus FFI::CheckLib Test::Stream FFI::Platypus::Type::StringArray
 #  - dzil authordeps --missing | cpanm -n
 #  - dzil listdeps   --missing | cpanm -n
 
