@@ -80,16 +80,16 @@ sub _string_array_and_word
 
 _ffi->attach(['Hunspell_suggest'=>'suggest'] => ['opaque','opaque*','string'] => 'int', \&_string_array_and_word);
 _ffi->attach(['Hunspell_analyze'=>'analyze'] => ['opaque','opaque*','string'] => 'int', \&_string_array_and_word);
-#_ffi->attach(['Hunspell_generate'=>'generate'] => ['opaque','opaque*','string','string'] => 'int', sub {
-#  my($xsub, $self, $word, $word2) = @_;
-#  my $ptr;
-#  my $count = $xsub->($$self, \$ptr, $word, $word2);
-#  my @result = map { _ffi->cast('opaque','string',$_) } _ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
-#  _free_list($self, $ptr, $count);
-#  @result;
-#});
 
-sub generate { die 'TODO' }
+_ffi->attach(['Hunspell_generate'=>'generate'] => ['opaque','opaque*','string','string'] => 'int', sub {
+  my($xsub, $self, $word, $word2) = @_;
+  my $ptr;
+  my $count = $xsub->($$self, \$ptr, $word, $word2);
+  my @result = map { _ffi->cast('opaque','string',$_) } _ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
+  _free_list($self, $ptr, $count);
+  wantarray ? @result : $result[0];
+});
+
 sub generate2 { die 'TODO' }
 
 1;
