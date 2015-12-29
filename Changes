@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - rm spanish files in t folder in tarball to save space
 
 0.01      2015-12-29 08:35:20 -0500
   - initial version
