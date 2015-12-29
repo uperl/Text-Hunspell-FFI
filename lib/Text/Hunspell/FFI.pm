@@ -143,14 +143,15 @@ __END__
 B<NOTE>: This module is a reimplementation of L<Text::Hunspell>
 using L<FFI::Platypus> instead of C<XS>.  The documentation has
 largely be cribbed from that module.  The main advantage to this
-module is that it does not require a compiler.
+module is that it does not require a compiler.  The man disadvantage
+is that it is experimental and may break.
 
 This module provides a Perl interface to the B<Hunspell> library.
 This module is to meet the need of looking up many words,
 one at a time, in a single session, such as spell-checking
 a document in memory.
 
-The example code describes the interface on http://hunspell.sf.net
+The example code describes the interface on L<http://hunspell.sf.net>
 
 =head1 METHODS
 
