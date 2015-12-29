@@ -96,7 +96,7 @@ _ffi->attach(['Hunspell_generate2'=>'generate2'] => ['opaque','opaque*','string'
   my($xsub, $self, $word, $suggestions) = @_;
   my $n = scalar @$suggestions;
   my $ptr;
-  my $count = $xsub->($self, \$ptr, $word, $suggestions, $n);
+  my $count = $xsub->($$self, \$ptr, $word, [@$suggestions], 1);
   my @result = map { _ffi->cast('opaque','string',$_) } _ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
   _free_list($self, $ptr, $count);
   wantarray ? @result : $result[0];  
