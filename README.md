@@ -144,6 +144,11 @@ Returns morphologically modified stem like $word.
 
 tells us that the masculine form of 'danseuse' is 'danseur'.
 
+# SEE ALSO
+
+- [Text::Hunspell](https://metacpan.org/pod/Text::Hunspell)
+- [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus)
+
 # CAVEATS
 
 Please see:

@@ -256,6 +256,16 @@ Returns morphologically modified stem like $word.
 
 tells us that the masculine form of 'danseuse' is 'danseur'.
 
+=head1 SEE ALSO
+
+=over 4
+
+=item L<Text::Hunspell>
+
+=item L<FFI::Platypus>
+
+=back
+
 =head1 CAVEATS
 
 Please see:
