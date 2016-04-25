@@ -16,7 +16,6 @@ $modules{$_} = $_ for qw(
   FFI::Platypus
   FFI::Platypus::Type::StringArray
   Test::More
-  Test::Stream
 );
 
 $post_diag = sub
