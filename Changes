@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.02      2016-04-25 07:02:20 -0400
   - remove spanish files in t folder in tarball to save space
   - remove dependency on Test::Stream
 
