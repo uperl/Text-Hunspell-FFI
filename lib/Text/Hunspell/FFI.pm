@@ -4,33 +4,29 @@ use strict;
 use warnings;
 use 5.020;
 use FFI::Platypus 1.00;
-use FFI::CheckLib 0.14 ();
-use Text::Hunspell::FFI::Lib;
+use FFI::CheckLib 0.27 ();
 use experimental qw( postderef );
 
 # ABSTRACT: Perl FFI interface to the Hunspell library
 # VERSION
 
-sub _ffi
+sub _lib
 {
-  state $ffi;
-
-  unless(defined $ffi)
-  {
-    my @libs = Text::Hunspell::FFI::Lib::_libs();
-
-    die "unable to find libs" unless @libs;
-
-    $ffi = FFI::Platypus->new(
-      api => 1,
-      lib => \@libs,
-    );
-  }
-
-  $ffi;
+  my @args = (lib => '*', verify => sub { $_[0] =~ /hunspell/ }, symbol => "Hunspell_create");
+  my @libs = FFI::CheckLib::find_lib @args;
+  my($first) = @libs
+    ? @libs
+    : FFI::CheckLib::find_lib @args, alien => 'Alien::Hunspell';
+  die "unable to find libs" unless $first;
+  $first;
 }
 
-_ffi->attach(['Hunspell_create'=>'new'] => ['string','string'] => 'opaque', sub
+my $ffi = FFI::Platypus->new(
+  api => 1,
+  lib => _lib(),
+);
+
+$ffi->attach(['Hunspell_create'=>'new'] => ['string','string'] => 'opaque', sub
 {
   my($xsub, $class, $aff, $dic) = @_;
   my $ptr = $xsub->($aff, $dic);
@@ -38,7 +34,7 @@ _ffi->attach(['Hunspell_create'=>'new'] => ['string','string'] => 'opaque', sub
 });
 
 
-_ffi->attach(['Hunspell_destroy'=>'DESTROY'] => ['opaque'] => 'void', sub
+$ffi->attach(['Hunspell_destroy'=>'DESTROY'] => ['opaque'] => 'void', sub
 {
   my($xsub, $self) = @_;
   $xsub->($$self);
@@ -47,7 +43,7 @@ _ffi->attach(['Hunspell_destroy'=>'DESTROY'] => ['opaque'] => 'void', sub
 foreach my $try (qw( Hunspell_add_dic _ZN8Hunspell7add_dicEPKcS1_ ))
 {
   eval {
-    _ffi->attach([$try=>'add_dic'] => ['opaque','string'] => 'void', sub
+    $ffi->attach([$try=>'add_dic'] => ['opaque','string'] => 'void', sub
     {
       my($xsub, $self, $dpath) = @_;
       $xsub->($$self, $dpath);
@@ -62,43 +58,43 @@ unless(__PACKAGE__->can('add_dic'))
   die "unable to find add_dic";
 }
 
-_ffi->attach(['Hunspell_spell'=>'check'] => ['opaque','string'] => 'int', sub
+$ffi->attach(['Hunspell_spell'=>'check'] => ['opaque','string'] => 'int', sub
 {
   my($xsub, $self, $word) = @_;
   $xsub->($$self, $word);
 });
 
-_ffi->attach(['Hunspell_free_list',=>'_free_list'] => ['opaque','opaque*','int'] => 'void');
+$ffi->attach(['Hunspell_free_list',=>'_free_list'] => ['opaque','opaque*','int'] => 'void');
 
 sub _string_array_and_word
 {
   my($xsub, $self, $word) = @_;
   my $ptr;
   my $count = $xsub->($$self, \$ptr, $word);
-  my @result = map { _ffi->cast('opaque','string',$_) } _ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
+  my @result = map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
   _free_list($self, $ptr, $count);
   wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
 }
 
-_ffi->attach(['Hunspell_suggest'=>'suggest'] => ['opaque','opaque*','string'] => 'int', \&_string_array_and_word);
-_ffi->attach(['Hunspell_analyze'=>'analyze'] => ['opaque','opaque*','string'] => 'int', \&_string_array_and_word);
+$ffi->attach(['Hunspell_suggest'=>'suggest'] => ['opaque','opaque*','string'] => 'int', \&_string_array_and_word);
+$ffi->attach(['Hunspell_analyze'=>'analyze'] => ['opaque','opaque*','string'] => 'int', \&_string_array_and_word);
 
-_ffi->attach(['Hunspell_generate'=>'generate'] => ['opaque','opaque*','string','string'] => 'int', sub {
+$ffi->attach(['Hunspell_generate'=>'generate'] => ['opaque','opaque*','string','string'] => 'int', sub {
   my($xsub, $self, $word, $word2) = @_;
   my $ptr;
   my $count = $xsub->($$self, \$ptr, $word, $word2);
-  my @result = map { _ffi->cast('opaque','string',$_) } _ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
+  my @result = map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
   _free_list($self, $ptr, $count);
   wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
 });
 
-_ffi->attach(['Hunspell_generate2'=>'generate2'] => ['opaque','opaque*','string','string[]','int'] => 'int', sub
+$ffi->attach(['Hunspell_generate2'=>'generate2'] => ['opaque','opaque*','string','string[]','int'] => 'int', sub
 {
   my($xsub, $self, $word, $suggestions) = @_;
   my $n = scalar @$suggestions;
   my $ptr;
   my $count = $xsub->($$self, \$ptr, $word, [@$suggestions], 1);
-  my @result = map { _ffi->cast('opaque','string',$_) } _ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
+  my @result = map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
   _free_list($self, $ptr, $count);
   wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
 });

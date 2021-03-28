@@ -19,8 +19,8 @@ $modules{$_} = $_ for qw(
 
 $post_diag = sub
 {
-  require Text::Hunspell::FFI::Lib;
-  diag "lib[]=$_" for Text::Hunspell::FFI::Lib::_libs();
+  require Text::Hunspell::FFI;
+  diag "lib=", Text::Hunspell::FFI::_lib();
 };
 
 my @modules = sort keys %modules;
