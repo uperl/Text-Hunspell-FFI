@@ -1,4 +1,4 @@
-# Text::Hunspell::FFI ![linux](https://github.com/plicease/Text-Hunspell-FFI/workflows/linux/badge.svg) ![macos](https://github.com/plicease/Text-Hunspell-FFI/workflows/macos/badge.svg) ![windows](https://github.com/plicease/Text-Hunspell-FFI/workflows/windows/badge.svg) ![cygwin](https://github.com/plicease/Text-Hunspell-FFI/workflows/cygwin/badge.svg) ![msys2-mingw](https://github.com/plicease/Text-Hunspell-FFI/workflows/msys2-mingw/badge.svg)
+# Text::Hunspell::FFI ![linux](https://github.com/uperl/Text-Hunspell-FFI/workflows/linux/badge.svg) ![macos](https://github.com/uperl/Text-Hunspell-FFI/workflows/macos/badge.svg) ![windows](https://github.com/uperl/Text-Hunspell-FFI/workflows/windows/badge.svg) ![cygwin](https://github.com/uperl/Text-Hunspell-FFI/workflows/cygwin/badge.svg) ![msys2-mingw](https://github.com/uperl/Text-Hunspell-FFI/workflows/msys2-mingw/badge.svg)
 
 Perl FFI interface to the Hunspell library
 

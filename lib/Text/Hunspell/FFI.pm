@@ -3,7 +3,8 @@ package Text::Hunspell::FFI;
 use strict;
 use warnings;
 use 5.020;
-use FFI::Platypus;
+use FFI::Platypus 1.00;
+use FFI::CheckLib 0.14 ();
 use Text::Hunspell::FFI::Lib;
 use experimental qw( postderef );
 
@@ -21,9 +22,9 @@ sub _ffi
     die "unable to find libs" unless @libs;
 
     $ffi = FFI::Platypus->new(
+      api => 1,
       lib => \@libs,
     );
-    $ffi->load_custom_type('::StringArray' => 'string_array');
   }
 
   $ffi;
@@ -91,7 +92,7 @@ _ffi->attach(['Hunspell_generate'=>'generate'] => ['opaque','opaque*','string','
   wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
 });
 
-_ffi->attach(['Hunspell_generate2'=>'generate2'] => ['opaque','opaque*','string','string_array','int'] => 'int', sub
+_ffi->attach(['Hunspell_generate2'=>'generate2'] => ['opaque','opaque*','string','string[]','int'] => 'int', sub
 {
   my($xsub, $self, $word, $suggestions) = @_;
   my $n = scalar @$suggestions;
