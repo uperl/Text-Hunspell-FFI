@@ -13,19 +13,19 @@ use experimental qw( postderef );
 sub _ffi
 {
   state $ffi;
-  
+
   unless(defined $ffi)
   {
     my @libs = Text::Hunspell::FFI::Lib::_libs();
 
     die "unable to find libs" unless @libs;
-    
+
     $ffi = FFI::Platypus->new(
       lib => \@libs,
     );
     $ffi->load_custom_type('::StringArray' => 'string_array');
   }
-  
+
   $ffi;
 }
 
@@ -76,7 +76,7 @@ sub _string_array_and_word
   my $count = $xsub->($$self, \$ptr, $word);
   my @result = map { _ffi->cast('opaque','string',$_) } _ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
   _free_list($self, $ptr, $count);
-  wantarray ? @result : $result[0];
+  wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
 }
 
 _ffi->attach(['Hunspell_suggest'=>'suggest'] => ['opaque','opaque*','string'] => 'int', \&_string_array_and_word);
@@ -88,7 +88,7 @@ _ffi->attach(['Hunspell_generate'=>'generate'] => ['opaque','opaque*','string','
   my $count = $xsub->($$self, \$ptr, $word, $word2);
   my @result = map { _ffi->cast('opaque','string',$_) } _ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
   _free_list($self, $ptr, $count);
-  wantarray ? @result : $result[0];
+  wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
 });
 
 _ffi->attach(['Hunspell_generate2'=>'generate2'] => ['opaque','opaque*','string','string_array','int'] => 'int', sub
@@ -99,7 +99,7 @@ _ffi->attach(['Hunspell_generate2'=>'generate2'] => ['opaque','opaque*','string'
   my $count = $xsub->($$self, \$ptr, $word, [@$suggestions], 1);
   my @result = map { _ffi->cast('opaque','string',$_) } _ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
   _free_list($self, $ptr, $count);
-  wantarray ? @result : $result[0];  
+  wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
 });
 
 1;
@@ -111,21 +111,21 @@ __END__
 =head1 SYNOPSIS
 
     use Text::Hunspell::FFI;
-
+ 
     # You can use relative or absolute paths.
     my $speller = Text::Hunspell::FFI->new(
         "/usr/share/hunspell/en_US.aff",    # Hunspell affix file
         "/usr/share/hunspell/en_US.dic"     # Hunspell dictionary file
     );
-
+ 
     die unless $speller;
-
+ 
     # Check a word against the dictionary
     my $word = 'opera';
     print $speller->check($word)
           ? "'$word' found in the dictionary\n"
           : "'$word' not found in the dictionary!\n";
-
+ 
     # Spell check suggestions
     my $misspelled = 'programmng';
     my @suggestions = $speller->suggest($misspelled);
@@ -133,7 +133,7 @@ __END__
     for (@suggestions) {
         print "  - $_\n";
     }
-
+ 
     # Add dictionaries later
     $speller->add_dic('dictionary_file.dic');
 

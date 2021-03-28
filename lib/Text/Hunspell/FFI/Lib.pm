@@ -15,8 +15,8 @@ sub _libs
   @libs = eval {
     require FFI::CheckLib;
     FFI::CheckLib::find_lib(
-      lib => "*", 
-      verify => sub { $_[0] =~ /hunspell/ }, 
+      lib => "*",
+      verify => sub { $_[0] =~ /hunspell/ },
       symbol => "Hunspell_create"
     );
   } unless(@libs);
