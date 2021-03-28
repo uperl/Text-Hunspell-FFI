@@ -1,35 +1,37 @@
-# Text::Hunspell::FFI [![Build Status](https://secure.travis-ci.org/plicease/Text-Hunspell-FFI.png)](http://travis-ci.org/plicease/Text-Hunspell-FFI)
+# Text::Hunspell::FFI ![linux](https://github.com/plicease/Text-Hunspell-FFI/workflows/linux/badge.svg) ![macos](https://github.com/plicease/Text-Hunspell-FFI/workflows/macos/badge.svg) ![windows](https://github.com/plicease/Text-Hunspell-FFI/workflows/windows/badge.svg) ![cygwin](https://github.com/plicease/Text-Hunspell-FFI/workflows/cygwin/badge.svg) ![msys2-mingw](https://github.com/plicease/Text-Hunspell-FFI/workflows/msys2-mingw/badge.svg)
 
 Perl FFI interface to the Hunspell library
 
 # SYNOPSIS
 
-    use Text::Hunspell::FFI;
+```perl
+   use Text::Hunspell::FFI;
 
-    # You can use relative or absolute paths.
-    my $speller = Text::Hunspell::FFI->new(
-        "/usr/share/hunspell/en_US.aff",    # Hunspell affix file
-        "/usr/share/hunspell/en_US.dic"     # Hunspell dictionary file
-    );
+   # You can use relative or absolute paths.
+   my $speller = Text::Hunspell::FFI->new(
+       "/usr/share/hunspell/en_US.aff",    # Hunspell affix file
+       "/usr/share/hunspell/en_US.dic"     # Hunspell dictionary file
+   );
 
-    die unless $speller;
+   die unless $speller;
 
-    # Check a word against the dictionary
-    my $word = 'opera';
-    print $speller->check($word)
-          ? "'$word' found in the dictionary\n"
-          : "'$word' not found in the dictionary!\n";
+   # Check a word against the dictionary
+   my $word = 'opera';
+   print $speller->check($word)
+         ? "'$word' found in the dictionary\n"
+         : "'$word' not found in the dictionary!\n";
 
-    # Spell check suggestions
-    my $misspelled = 'programmng';
-    my @suggestions = $speller->suggest($misspelled);
-    print "\n", "You typed '$misspelled'. Did you mean?\n";
-    for (@suggestions) {
-        print "  - $_\n";
-    }
+   # Spell check suggestions
+   my $misspelled = 'programmng';
+   my @suggestions = $speller->suggest($misspelled);
+   print "\n", "You typed '$misspelled'. Did you mean?\n";
+   for (@suggestions) {
+       print "  - $_\n";
+   }
 
-    # Add dictionaries later
-    $speller->add_dic('dictionary_file.dic');
+   # Add dictionaries later
+   $speller->add_dic('dictionary_file.dic');
+```
 
 # DESCRIPTION
 
@@ -52,7 +54,9 @@ The following methods are available:
 
 ## new
 
-    my $spell = Text::Hunspell::FFI->new($full_path_to_affix, $full_path_to_dic);
+```perl
+my $spell = Text::Hunspell::FFI->new($full_path_to_affix, $full_path_to_dic);
+```
 
 Creates a new speller object. Parameters are:
 
@@ -63,7 +67,9 @@ Returns `undef` if the object could not be created, which is unlikely.
 
 ## add\_dic
 
-    $spell->add_dic($path_to_dic);
+```
+$spell->add_dic($path_to_dic);
+```
 
 Adds a new dictionary to the current `Text::Hunspell::FFI` object. This dictionary
 will use the same affix file as the original dictionary, so this is like using
@@ -72,13 +78,17 @@ different languages, use multiple `Text::Hunspell::FFI` objects.
 
 ## check
 
-    my $bool = $spell->check($word);
+```perl
+my $bool = $spell->check($word);
+```
 
 Check the word. Returns 1 if the word is found, 0 otherwise.
 
 ## suggest
 
-    my @words = $spell->suggest($misspelled_word);
+```perl
+my @words = $spell->suggest($misspelled_word);
+```
 
 Returns the list of suggestions for the misspelled word.
 
@@ -91,7 +101,9 @@ dictionaries will find that they have more information available.)
 
 ## analyze
 
-    my @words = $spell->analyze($word);
+```perl
+my @words = $spell->analyze($word);
+```
 
 Returns the analysis list for the word. This will be a list of
 strings that contain a stem word and the morphological information
@@ -102,45 +114,59 @@ each one will be returned as a different item in the list.
 
 However, with a French dictionary loaded, `analyze('chanson')` will return
 
-    st:chanson po:nom is:fem is:sg
+```
+st:chanson po:nom is:fem is:sg
+```
 
 to tell you that "chanson" is a feminine singular noun, and
 `analyze('chansons')` will return
 
-    st:chanson po:nom is:fem is:pl
+```
+st:chanson po:nom is:fem is:pl
+```
 
 to tell you that you've analyzed the plural of the same noun.
 
 ## stem
 
-    my @stems = $spell->stem($word);
+```perl
+my @stems = $spell->stem($word);
+```
 
 Returns the stem list for the word. This is a simpler version of the
 results from `analyze()`.
 
 ## generate2
 
-    my @ana = $spell->generate2($stem, \@suggestions)
+```perl
+my @ana = $spell->generate2($stem, \@suggestions)
+```
 
 Returns a morphologically modified stem as defined in
 `@suggestions` (got by analysis).
 
 With a French dictionary:
 
-    $feminine_form = 'chanteuse';
-    @ana = $speller->analyze($feminine_form);
-    $ana[0] =~ s/is:fem/is:mas/;
-    print $speller->generate2($feminine_form, \@ana)
+```perl
+$feminine_form = 'chanteuse';
+@ana = $speller->analyze($feminine_form);
+$ana[0] =~ s/is:fem/is:mas/;
+print $speller->generate2($feminine_form, \@ana)
+```
 
 will print 'chanteur'.
 
 ## generate
 
-    my @ana = generate($stem, $word)
+```perl
+my @ana = generate($stem, $word)
+```
 
 Returns morphologically modified stem like $word.
 
-    $french_speller->generate('danseuse', 'chanteur');
+```perl
+$french_speller->generate('danseuse', 'chanteur');
+```
 
 tells us that the masculine form of 'danseuse' is 'danseur'.
 
