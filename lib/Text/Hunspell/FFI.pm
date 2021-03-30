@@ -71,8 +71,8 @@ sub _string_array_and_word
   my($xsub, $self, $word) = @_;
   my $ptr;
   my $count = $xsub->($$self, \$ptr, $word);
-  my @result = map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
-  _free_list($self, $ptr, $count);
+  my @result = defined $ptr ? map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@* : ();
+  _free_list($self, $ptr, $count) if defined $ptr;
   wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
 }
 
@@ -83,8 +83,8 @@ $ffi->attach(['Hunspell_generate'=>'generate'] => ['opaque','opaque*','string','
   my($xsub, $self, $word, $word2) = @_;
   my $ptr;
   my $count = $xsub->($$self, \$ptr, $word, $word2);
-  my @result = map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
-  _free_list($self, $ptr, $count);
+  my @result = defined $ptr ? map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@* : ();
+  _free_list($self, $ptr, $count) if $ptr;
   wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
 });
 
@@ -94,8 +94,8 @@ $ffi->attach(['Hunspell_generate2'=>'generate2'] => ['opaque','opaque*','string'
   my $n = scalar @$suggestions;
   my $ptr;
   my $count = $xsub->($$self, \$ptr, $word, [@$suggestions], 1);
-  my @result = map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@*;
-  _free_list($self, $ptr, $count);
+  my @result = defined $ptr ? map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@* : ();
+  _free_list($self, $ptr, $count) if defined $ptr;
   wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
 });
 
