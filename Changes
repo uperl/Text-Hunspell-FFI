@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.04      2021-03-30 17:48:10 -0600
   - Fixed bug where empty suggestions could cause a crash (gh#8)
 
 0.03      2021-03-28 16:25:01 -0600
