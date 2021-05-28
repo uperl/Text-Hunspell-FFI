@@ -73,7 +73,7 @@ sub _string_array_and_word
   my $count = $xsub->($$self, \$ptr, $word);
   my @result = defined $ptr ? map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@* : ();
   _free_list($self, $ptr, $count) if defined $ptr;
-  wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
+  wantarray ? @result : $result[0];  ## no critic (Community::Wantarray)
 }
 
 $ffi->attach(['Hunspell_suggest'=>'suggest'] => ['opaque','opaque*','string'] => 'int', \&_string_array_and_word);
@@ -85,7 +85,7 @@ $ffi->attach(['Hunspell_generate'=>'generate'] => ['opaque','opaque*','string','
   my $count = $xsub->($$self, \$ptr, $word, $word2);
   my @result = defined $ptr ? map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@* : ();
   _free_list($self, $ptr, $count) if $ptr;
-  wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
+  wantarray ? @result : $result[0];  ## no critic (Community::Wantarray)
 });
 
 $ffi->attach(['Hunspell_generate2'=>'generate2'] => ['opaque','opaque*','string','string[]','int'] => 'int', sub
@@ -96,7 +96,7 @@ $ffi->attach(['Hunspell_generate2'=>'generate2'] => ['opaque','opaque*','string'
   my $count = $xsub->($$self, \$ptr, $word, [@$suggestions], 1);
   my @result = defined $ptr ? map { $ffi->cast('opaque','string',$_) } $ffi->cast('opaque',"opaque[$count]", $ptr)->@* : ();
   _free_list($self, $ptr, $count) if defined $ptr;
-  wantarray ? @result : $result[0];  ## no critic (Freenode::Wantarray)
+  wantarray ? @result : $result[0];  ## no critic (Community::Wantarray)
 });
 
 1;
